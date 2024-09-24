@@ -14,6 +14,7 @@ import {
 
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import settingsSlice from "./settingsSlice";
+import userSlice from "./userSlice";
 // ... add local storage congih
 // save reducer slice to storage
 const moviesPersistConfig = {
@@ -25,13 +26,19 @@ const settingsPersistConfig = {
   key: "settings",
   storage: AsyncStorage,
 };
+const userPersistConfig = {
+  key: "user",
+  storage: AsyncStorage,
+};
 const persistedMovies = persistReducer(moviesPersistConfig, moviesSlice);
 const persistedSettings = persistReducer(settingsPersistConfig, settingsSlice);
+const persistedUser = persistReducer(userPersistConfig, userSlice);
 
 export const store = configureStore({
   reducer: {
     movies: persistedMovies,
     settings: persistedSettings,
+    user: persistedUser,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -3,6 +3,7 @@ export interface MovieType {
   backdrop_path: string;
   genre_ids: number[];
   id: number;
+  fsId?: string;
   original_language: string;
   original_title: string;
   overview: string;

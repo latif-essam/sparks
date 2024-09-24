@@ -7,6 +7,7 @@ import {
 import { MovieType } from "../constants/types";
 import { RootState } from ".";
 import { apiUrlMovies, moviesApi } from "../constants/api";
+import { addFavMovieFS } from "../constants/firestoreApis";
 
 export interface MoviesSlice {
   list: MovieType[];
@@ -72,6 +73,9 @@ export const fetchMovies = createAsyncThunk<MovieType[], FetchMoviesArgs>(
     return movies;
   }
 );
+interface AddMovie {
+  movie: MovieType;
+}
 
 // Selectors
 const selectMovies = (state: RootState) => state.movies.list;

@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Alert, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import { imgPath } from "../constants/api";
 import { Card, IconButton } from "react-native-paper";
@@ -8,18 +8,27 @@ import routes from "../constants/routes";
 import { useDispatch } from "react-redux";
 import { toggleFav } from "../store/moviesSlice";
 import { RootStackParamList } from "../navigation/MoviesStackNav";
+import { addFavMovieFS, removeFavMovieFS } from "../constants/firestoreApis";
 const MovieCard = ({ movie }: { movie: MovieType }) => {
   const dispatch = useDispatch();
-  const {
-    title,
-    original_language,
-    poster_path,
-    release_date,
-    vote_count,
-    liked,
-    id,
-  } = movie;
+  const { title, poster_path, release_date, liked } = movie;
   const { navigate } = useNavigation<NavigationProp<RootStackParamList>>();
+  const [loading, setLoading] = useState(false);
+  const handleAddFav = async () => {
+    setLoading(true);
+    try {
+      dispatch(toggleFav(movie.id));
+      if (movie.liked) {
+        removeFavMovieFS(movie.fsId as string);
+      } else {
+        addFavMovieFS(movie);
+      }
+    } catch (error) {
+      Alert.alert("error add fav ff");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <Card
       style={styles.card}
@@ -34,7 +43,7 @@ const MovieCard = ({ movie }: { movie: MovieType }) => {
           <IconButton
             {...props}
             icon={liked ? "cards-heart" : "cards-heart-outline"}
-            onPress={() => dispatch(toggleFav(movie.id))}
+            onPress={handleAddFav}
           />
         )}
       />

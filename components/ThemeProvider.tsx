@@ -5,6 +5,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { DefaultTheme, MD3DarkTheme, PaperProvider } from "react-native-paper";
 import { useAppSelector } from "../store";
 import TabNav from "../navigation/TabNav";
+import { StackNav } from "../navigation/StackNav";
 
 // Separate ThemeProvider Component (as shown previously)
 export default function ThemeProvider() {
@@ -12,7 +13,8 @@ export default function ThemeProvider() {
   return (
     <PaperProvider theme={isDark ? MD3DarkTheme : DefaultTheme}>
       <NavigationContainer>
-        <TabNav />
+        {/* set Sack Nav for two stacks(onboarding , and home page) */}
+        <StackNav />
       </NavigationContainer>
     </PaperProvider>
   );
